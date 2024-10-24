@@ -20,11 +20,14 @@ func main() {
 	userService := user.NewService(userRepository)
 	userHandler := handler.NewUserHandler(userService)
 
+	userService.SaveAvatar(1, "images/avatar.jpg")
 	router := gin.Default()
 
 	api := router.Group("/api/v1")
 	api.POST("/users", userHandler.RegisterUser)
 	api.POST("/session", userHandler.Login)
+	api.POST("/email_checker", userHandler.CheckEmailAvailability)
+	api.POST("/avatars", userHandler.UploadAvatar)
 	err = router.Run()
 	if err != nil {
 		return
